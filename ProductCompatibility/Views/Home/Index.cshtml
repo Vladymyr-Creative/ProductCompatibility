@@ -8,24 +8,30 @@
 <div class="text-center">
     <h1 class="display-4">Home Products</h1>
     <table class="product-table">
-        @foreach (Product product_horizontal in Model.AllProducts) {            
+        @foreach (Product product_horizontal in Model.AllProducts) {
             <tr>
                 @if (@product_horizontal.ID != 1) {
-                    <td class="horizontal">@product_horizontal.Name</td>
+                    <td class="horizontal"><a href="/Product/Single/@product_horizontal.ID">@product_horizontal.Name</a></td>
                 }
                 else {
-                    <td></td>
+                    <td>Update</td>
                 }
 
                 @foreach (Product product_vertical in Model.AllProducts) {
                     @if (@product_horizontal.ID == product_vertical.ID) {
-                        <td class="vertical">@product_horizontal.Name</td>
+                        <td class="vertical"><a href="/Product/Single/@product_horizontal.ID">@product_horizontal.Name</a></td>
                         break;
                     }
-                    <td class="table-cell"></td>
+                    <td class="table-cell">
+                        <select>
+                            <option value="1">Perfect</option>
+                            <option value="2">Good</option>
+                            <option selected value="3">Bad</option>
+                            <option value="4">Awful</option>
+                        </select>
+                    </td>
                 }
             </tr>
         }
     </table>
 </div>
-

@@ -1,0 +1,48 @@
+﻿@model Product
+
+
+    <h3>Add new product</h3>
+    <div class="row">        
+        <form asp-action="Add" method="post" class="list-group-horizontal">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <div class="col-md">
+                    <input asp-for="Name" class="form-control" value="@Model?.Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <div class="col-md">
+                    <input asp-for="Description" class="form-control" value="@Model?.Description" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryID"></label>
+                <div class="col-md">
+                    <input asp-for="CategoryID" class="form-control" value="@Model?.CategoryID" />
+                    <span asp-validation-for="CategoryID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryID"></label>
+                <div class="col-md">                    
+                    <select class="form-control" asp-for="CategoryID" required value="@Model?.CategoryID">
+                        @foreach (var category in @ViewBag.Categories) {
+                        <option value="@category.ID">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Img"></label>
+                <div class="col-md">
+                    <input asp-for="Img" class="form-control" value="@Model?.Img" />
+                    <span asp-validation-for="Img" class="text-danger"></span>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-success" value="Add Product" />
+        </form>
+    </div>

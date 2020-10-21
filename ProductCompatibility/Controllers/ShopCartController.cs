@@ -26,7 +26,7 @@ namespace ProductCompatibility.Controllers
             _shopCart.ListShopItems = items;
 
             var obj = new ShopCartViewModel {
-                shopCart = _shopCart
+                ShopCart = _shopCart
             };
 
             return View(obj);

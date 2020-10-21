@@ -12,5 +12,6 @@ namespace ProductCompatibility.ViewModels
 
         public string CurrentCategory { get; set; }
 
+        public Product Product { get; set; }        
     }
 }

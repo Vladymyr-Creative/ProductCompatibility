@@ -27,12 +27,12 @@ namespace ProductCompatibility.Controllers
         public IActionResult Checkout(Order order)
         {
             _shopCart.ListShopItems = _shopCart.GetShopItems();
-            if (_shopCart.ListShopItems.Count()==0) {
+            if (_shopCart.ListShopItems.Count() == 0) {
                 ModelState.AddModelError("", "The Cart can't be empty");
             }
             if (ModelState.IsValid) {
                 _allOrders.CreateOrder(order);
-                return RedirectToAction("Complete");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(order);

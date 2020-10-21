@@ -45,6 +45,28 @@ namespace ProductCompatibility.Data
             set { }
         }
 
+        private static Dictionary<string, Compatibility> _compatibility;
+        public static Dictionary<string, Compatibility> Compatibilities
+        {
+            get {
+                if (_compatibility == null) {
+                    var compatibilityList = new List<Compatibility> {
+                        new Compatibility { Name= "Perfect"},
+                        new Compatibility { Name= "Good"},
+                        new Compatibility { Name= "Bad"},
+                        new Compatibility { Name= "Awful"}
+                    };
+
+                    _compatibility = new Dictionary<string, Compatibility>();
+                    foreach (Compatibility compatibility in compatibilityList) {
+                        _compatibility.Add(compatibility.Name, compatibility);
+                    }
+                }
+                return _compatibility;
+            }
+            set { }
+        }
+
         private static Dictionary<string, Product> _product;
         public static Dictionary<string, Product> Products
         {

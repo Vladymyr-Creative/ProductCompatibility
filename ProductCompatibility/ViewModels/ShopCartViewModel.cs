@@ -8,6 +8,6 @@ namespace ProductCompatibility.ViewModels
 {
     public class ShopCartViewModel
     {
-        public ShopCart shopCart { get; set; }
+        public ShopCart ShopCart { get; set; }
     }
 }

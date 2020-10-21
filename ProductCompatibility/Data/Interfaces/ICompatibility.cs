@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Interfaces
 {
-    public interface IAllProducts
+    public interface ICompatibility
     {
-        IEnumerable<Product> Products { get; }
-        Product GetObjectProducts(int productID);
-        void CreateProduct(Product order);
+        IEnumerable<Compatibility> AllCompatibilities { get;}
     }
 }

@@ -47,9 +47,37 @@ namespace ProductCompatibility.Controllers
             };
             return View(productObj);
         }
+
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Route("Product/Single/{productID}")]
+        public IActionResult Single(int productID)
+        {
+            Product product = _allProducts.Products.Where(i => i.ID == productID).FirstOrDefault();
+            var productObj = new ProductListViewModel {                
+                Product = product                
+            };
+            return View(productObj);            
+        }
+
+        public IActionResult Add()
+        {
+            ViewBag.Categories = _productCategories.AllCategories;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(Product product)
+        {       
+            if (ModelState.IsValid) {
+                _allProducts.CreateProduct(product);
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(product);
         }
     }
 }
