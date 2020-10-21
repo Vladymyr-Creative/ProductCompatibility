@@ -1,0 +1,17 @@
+﻿@using ProductCompatibility.ViewModels
+@model ProductListViewModel
+
+@{
+    ViewData["Title"] = "sadasdasdadsasda";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">All Productsss</h1>
+        <h2 class="display-4">category @Model.CurrentCategory</h2>
+          @{
+                foreach (Product product in Model.AllProducts) {
+                    @Html.Partial("AllProducts", product)
+                }
+            }
+    </div>
+

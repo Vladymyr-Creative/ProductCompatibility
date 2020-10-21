@@ -1,0 +1,8 @@
+﻿@model ProductCompatibility.Data.Models.Product
+
+@{
+    <div>Product: @Model.Name</div>
+    <div>Category: @Model.Category.Name</div>
+    <p><a asp-controller="ShopCart" asp-action="AddToCart" asp-route-prodId="@Model.ID">Add to Cart</a></p>
+}
+
