@@ -19,7 +19,6 @@ namespace ProductCompatibility.Controllers
             _productCategories = productCategories;
         }
 
-
         [Route("Product/List")]
         [Route("Product/List/{category}")]
         public ViewResult List(string category)
@@ -30,17 +29,10 @@ namespace ProductCompatibility.Controllers
                 products = _allProducts.Products.OrderBy(i => i.ID);
             }
             else {
-                if (string.Equals("alkaline", category, StringComparison.OrdinalIgnoreCase)) {
-                    products = _allProducts.Products.Where(i => i.Category.Name.Equals("Щелочные"));
-                }
-                else if (string.Equals("acidic", category, StringComparison.OrdinalIgnoreCase)) {
-                    products = _allProducts.Products.Where(i => i.Category.Name.Equals("Кислотные"));
-                }
-                else if (string.Equals("neutral", category, StringComparison.OrdinalIgnoreCase)) {
-                    products = _allProducts.Products.Where(i => i.Category.Name.Equals("Нейтральные"));
-                }
+                products = _allProducts.Products.Where(i => i.Category.Name.ToLower().Equals(category.ToLower()));
                 currCategory = category;
             }
+
             var productObj = new ProductListViewModel {
                 AllProducts = products,
                 CurrentCategory = currCategory
@@ -57,10 +49,10 @@ namespace ProductCompatibility.Controllers
         public IActionResult Single(int productID)
         {
             Product product = _allProducts.Products.Where(i => i.ID == productID).FirstOrDefault();
-            var productObj = new ProductListViewModel {                
-                Product = product                
+            var productObj = new ProductListViewModel {
+                Product = product
             };
-            return View(productObj);            
+            return View(productObj);
         }
 
         public IActionResult Add()
@@ -71,12 +63,12 @@ namespace ProductCompatibility.Controllers
 
         [HttpPost]
         public IActionResult Add(Product product)
-        {       
+        {
             if (ModelState.IsValid) {
                 _allProducts.CreateProduct(product);
                 return RedirectToAction("Index", "Home");
             }
-
+            ViewBag.Categories = _productCategories.AllCategories;
             return View(product);
         }
     }

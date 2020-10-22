@@ -30,9 +30,9 @@ namespace ProductCompatibility.Data
             get {
                 if (_category == null) {
                     var categoryList = new List<Category> {
-                        new Category { Name= "Щелочные"},
-                        new Category { Name= "Кислотные"},
-                        new Category { Name= "Нейтральные"},
+                        new Category { Name= "Alkaline"},
+                        new Category { Name= "Acidic"},
+                        new Category { Name= "Neutral"},
                     };
 
                     _category = new Dictionary<string, Category>();
@@ -74,16 +74,16 @@ namespace ProductCompatibility.Data
                 if (_product == null) {
                     var productList = new List<Product> {
                         new Product { 
-                            Name="Свекла", 
-                            Category= Categories["Щелочные"]
+                            Name="Beet", 
+                            Category= Categories["Alkaline"]
                         },
                         new Product { 
-                            Name="Огурцы",
-                            Category= Categories["Нейтральные"]
+                            Name="Cucumber",
+                            Category= Categories["Neutral"]
                         },
                         new Product { 
-                            Name="Молоко",
-                            Category= Categories["Кислотные"]
+                            Name="Milk",
+                            Category= Categories["Acidic"]
                         }
                     };
 

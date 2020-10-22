@@ -14,7 +14,7 @@
                     <td class="horizontal"><a href="/Product/Single/@product_horizontal.ID">@product_horizontal.Name</a></td>
                 }
                 else {
-                    <td>Update</td>
+                    <td></td>
                 }
 
                 @foreach (Product product_vertical in Model.AllProducts) {
@@ -23,12 +23,12 @@
                         break;
                     }
                     <td class="table-cell">
-                        <select>
+                       @* <select>
                             <option value="1">Perfect</option>
                             <option value="2">Good</option>
-                            <option selected value="3">Bad</option>
+                            <option value="3">Bad</option>
                             <option value="4">Awful</option>
-                        </select>
+                        </select>*@
                     </td>
                 }
             </tr>

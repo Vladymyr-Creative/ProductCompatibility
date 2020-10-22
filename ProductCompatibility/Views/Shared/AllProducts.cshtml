@@ -1,8 +1,16 @@
 ﻿@model ProductCompatibility.Data.Models.Product
 
-@{
-    <a href="/Product/Single/@Model.ID">Product: @Model.Name</a>
-    <a href="/Category/List/@Model.CategoryID">Category: @Model.Category.Name</a>
-    <p><a asp-controller="ShopCart" asp-action="AddToCart" asp-route-prodId="@Model.ID">Add to Cart</a></p>
+@{    
+    <div class="card m-1 p-1" style="width: 18rem;">
+        <img class="card-img-top" src="" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="/Product/Single/@Model.ID">@Model.Name</a>
+            </h5>
+            <p class="card-text m-2">@Model.Description</p>
+            <a href="/Product/List/@Model.Category.Name" class="text-secondary">Category: @Model.Category.Name</a>
+            @*<p><a class="btn btn-primary" asp-controller="ShopCart" asp-action="AddToCart" asp-route-prodId="@Model.ID">Add to Cart</a></p>*@
+        </div>
+    </div>
 }
 
