@@ -12,7 +12,7 @@ namespace ProductCompatibility.Data
     public class DBObjects
     {
         public static void Initial(AppDBContent content)
-        {           
+        {
             if (!content.Category.Any()) {
                 content.Category.AddRange(Categories.Select(c => c.Value));
             }
@@ -21,35 +21,73 @@ namespace ProductCompatibility.Data
                 content.Product.AddRange(Products.Select(c => c.Value));
             }
 
+            if (!content.Compatibility.Any()) {
+                content.Compatibility.AddRange(Compatibilities.Select(c => c.Value));
+            }
+
+            /*if (!content.ProductsCompatibility.Any()) {
+                content.ProductsCompatibility.AddRange(ProductsCompatibilities.Select(c => c));
+            }*/
+
             content.SaveChanges();
         }
 
-        private static Dictionary<string, Category> _category;
+        private static Dictionary<string, Category> _categories;
         public static Dictionary<string, Category> Categories
         {
             get {
-                if (_category == null) {
+                if (_categories == null) {
                     var categoryList = new List<Category> {
                         new Category { Name= "Alkaline"},
                         new Category { Name= "Acidic"},
                         new Category { Name= "Neutral"},
                     };
 
-                    _category = new Dictionary<string, Category>();
+                    _categories = new Dictionary<string, Category>();
                     foreach (Category category in categoryList) {
-                        _category.Add(category.Name, category);
+                        _categories.Add(category.Name, category);
                     }
                 }
-                return _category;
+                return _categories;
             }
             set { }
         }
 
-        private static Dictionary<string, Compatibility> _compatibility;
+        private static Dictionary<string, Product> _products;
+        public static Dictionary<string, Product> Products
+        {
+            get {
+                if (_products == null) {
+                    var productList = new List<Product> {
+                        new Product {
+                            Name="Beet",
+                            Category= Categories["Alkaline"]
+                        },
+                        new Product {
+                            Name="Cucumber",
+                            Category= Categories["Neutral"]
+                        },
+                        new Product {
+                            Name="Milk",
+                            Category= Categories["Acidic"]
+                        }
+                    };
+
+                    _products = new Dictionary<string, Product>();
+                    foreach (Product product in productList) {
+                        _products.Add(product.Name, product);
+                    }
+                }
+                return _products;
+            }
+            set { }
+        }
+
+        private static Dictionary<string, Compatibility> _compatibilities;
         public static Dictionary<string, Compatibility> Compatibilities
         {
             get {
-                if (_compatibility == null) {
+                if (_compatibilities == null) {
                     var compatibilityList = new List<Compatibility> {
                         new Compatibility { Name= "Perfect"},
                         new Compatibility { Name= "Good"},
@@ -57,45 +95,48 @@ namespace ProductCompatibility.Data
                         new Compatibility { Name= "Awful"}
                     };
 
-                    _compatibility = new Dictionary<string, Compatibility>();
+                    _compatibilities = new Dictionary<string, Compatibility>();
                     foreach (Compatibility compatibility in compatibilityList) {
-                        _compatibility.Add(compatibility.Name, compatibility);
+                        _compatibilities.Add(compatibility.Name, compatibility);
                     }
                 }
-                return _compatibility;
+                return _compatibilities;
             }
             set { }
         }
 
-        private static Dictionary<string, Product> _product;
-        public static Dictionary<string, Product> Products
+        private static List<ProductsCompatibility> _productsCompatibilities;
+        public static List<ProductsCompatibility> ProductsCompatibilities
         {
             get {
-                if (_product == null) {
-                    var productList = new List<Product> {
-                        new Product { 
-                            Name="Beet", 
-                            Category= Categories["Alkaline"]
+                /*if (_productsCompatibilities == null) {
+                    var productsCompatibilitiesList = new List<ProductsCompatibility> {
+                        new ProductsCompatibility (){
+                            Product1ID=Products["Beet"],
+                            Product2ID=1,
+                            CompatibilityID=1,
+                            Product1=Products["Beet"],
+                            Product2=Products["Beet"] ,
+                            Compatibility=Compatibilities["Awful"]
                         },
-                        new Product { 
+                        new ProductsCompatibility {
                             Name="Cucumber",
                             Category= Categories["Neutral"]
                         },
-                        new Product { 
+                        new ProductsCompatibility {
                             Name="Milk",
                             Category= Categories["Acidic"]
                         }
                     };
 
-                    _product = new Dictionary<string, Product>();
-                    foreach (Product product in productList) {
-                        _product.Add(product.Name, product);
+                    _productsCompatibilities = new List<ProductsCompatibility>();
+                    foreach (ProductsCompatibility productsCompatibility in productsCompatibilitiesList) {
+                        _productsCompatibilities.Add(productsCompatibility);
                     }
-                }
-                return _product;
+                }*/
+                return _productsCompatibilities;
             }
             set { }
         }
-
     }
 }

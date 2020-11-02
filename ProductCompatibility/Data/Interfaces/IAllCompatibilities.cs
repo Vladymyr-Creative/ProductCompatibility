@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Interfaces
 {
-    public interface ICompatibility
+    public interface IAllCompatibilities
     {
         IEnumerable<Compatibility> AllCompatibilities { get;}
     }

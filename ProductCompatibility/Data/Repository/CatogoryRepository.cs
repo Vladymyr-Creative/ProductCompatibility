@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Repository
 {
-    public class CatogoryRepository : IProductCategories
+    public class CatogoryRepository : IAllCategories
     {
         private readonly AppDBContent _appDBContent;
 

@@ -12,8 +12,8 @@ namespace ProductCompatibility.Controllers
     public class ProductController : Controller
     {
         private readonly IAllProducts _allProducts;
-        private readonly IProductCategories _productCategories;
-        public ProductController(IAllProducts allProducts, IProductCategories productCategories)
+        private readonly IAllCategories _productCategories;
+        public ProductController(IAllProducts allProducts, IAllCategories productCategories)
         {
             _allProducts = allProducts;
             _productCategories = productCategories;

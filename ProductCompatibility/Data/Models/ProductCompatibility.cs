@@ -1,35 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Models
 {
     public class ProductsCompatibility
     {
-        private readonly List<string> _compatibilityList = new List<string> { "Perfect", "Good", "Bad", "Awful" };
-        private string _compatibility;
-
-        public ProductsCompatibility(int productId1, int productId2, string prodCompatibility)
-        {         
-            ProductId1 = productId1;
-            ProductId2 = productId2;
-            ProdCompatibility = prodCompatibility;
-        }
-
-        public int ProductId1 { get; set; }
-        public int ProductId2 { get; set; }
-        public string ProdCompatibility {
-            get { 
-                return _compatibility; 
-            } 
-            set {
-                if (_compatibilityList.Contains(value)) {
-                    _compatibility = value;
-                } else {
-                    _compatibility = "default";
-                }
-            }
-        }
+        public int ID { get; set; }
+        public int CompatibilityID { get; set; }                
+        public int Product1ID { get; set; }                
+        public int Product2ID { get; set; }
+        public virtual Compatibility Compatibility { get; set; }
+        public virtual Product Product1 { get; set; }
+        public virtual Product Product2 { get; set; }        
     }
 }
+/*
+ 
+ */

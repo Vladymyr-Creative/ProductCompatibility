@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Repository
 {
-    public class CompatibilityRepository : ICompatibility
+    public class CompatibilityRepository : IAllCompatibilities
     {
         private readonly AppDBContent _appDBContent;
 
@@ -15,6 +15,6 @@ namespace ProductCompatibility.Data.Repository
         {
             _appDBContent = appDBContent;
         }
-        public IEnumerable<Compatibility> AllCompatibilities => _appDBContent.Compatibility;
+        public IEnumerable<Compatibility> AllCompatibilities => _appDBContent.Compatibility;                
     }
 }

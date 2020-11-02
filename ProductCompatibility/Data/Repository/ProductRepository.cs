@@ -20,11 +20,11 @@ namespace ProductCompatibility.Data.Repository
         public IEnumerable<Product> Products => _appDBContent.Product.Include(c=>c.Category);
 
         public Product GetObjectProducts(int productID) => _appDBContent.Product.FirstOrDefault(p => p.ID == productID);
-        
+
         public void CreateProduct(Product product)
         {            
             _appDBContent.Product.Add(product);
-            _appDBContent.SaveChanges();            
+            _appDBContent.SaveChanges();
         }
     }
 }

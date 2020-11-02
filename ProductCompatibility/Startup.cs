@@ -31,8 +31,13 @@ namespace ProductCompatibility
         public void ConfigureServices(IServiceCollection services)
         {            
             services.AddDbContext<AppDBContent>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddTransient<IAllProducts, ProductRepository>();
-            services.AddTransient<IProductCategories, CatogoryRepository>();
+            services.AddTransient<IAllCategories, CatogoryRepository>();
+
+            services.AddTransient<IAllCompatibilities, CompatibilityRepository>();
+            services.AddTransient<IAllProductsCompatibilities, ProductsCompatibilityRepository>();
+
             services.AddTransient<IAllOrders, OrderRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

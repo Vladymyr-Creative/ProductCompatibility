@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Interfaces
 {
-    public interface IProductCategories
+    public interface IAllCategories
     {
         IEnumerable<Category> AllCategories { get;}
     }
