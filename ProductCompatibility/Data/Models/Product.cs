@@ -10,8 +10,8 @@ namespace ProductCompatibility.Data.Models
     public class Product
     {
         [BindNever]
-        public int ID { get; set; }
-        public int CategoryID { get; set; }
+        public int Id { get; set; }
+        public int CategoryId { get; set; }
 
         [Display(Name = "Enter product name")]
         [StringLength(15)]

@@ -21,7 +21,7 @@ namespace ProductCompatibility.Migrations
 
             modelBuilder.Entity("ProductCompatibility.Data.Models.Category", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -29,14 +29,14 @@ namespace ProductCompatibility.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Category");
                 });
 
             modelBuilder.Entity("ProductCompatibility.Data.Models.Compatibility", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -44,14 +44,14 @@ namespace ProductCompatibility.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Compatibility");
                 });
 
             modelBuilder.Entity("ProductCompatibility.Data.Models.Order", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -78,44 +78,44 @@ namespace ProductCompatibility.Migrations
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Order");
                 });
 
             modelBuilder.Entity("ProductCompatibility.Data.Models.OrderDetail", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("OrderID")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<long>("Price")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("ProductID")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("ProductCompatibility.Data.Models.Product", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -133,71 +133,130 @@ namespace ProductCompatibility.Migrations
                         .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
                 });
 
             modelBuilder.Entity("ProductCompatibility.Data.Models.ProductsCompatibility", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CompatibilityID")
+                    b.Property<int>("CompatibilityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Product1ID")
+                    b.Property<int>("Product1Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Product2ID")
+                    b.Property<int>("Product2Id")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasAlternateKey("Product1ID", "Product2ID");
+                    b.HasAlternateKey("Product1Id", "Product2Id");
 
-                    b.HasIndex("CompatibilityID");
+                    b.HasIndex("CompatibilityId");
 
-                    b.HasIndex("Product2ID");
+                    b.HasIndex("Product2Id");
 
                     b.ToTable("ProductsCompatibility");
                 });
 
-            modelBuilder.Entity("ProductCompatibility.Data.Models.ShopCartItem", b =>
+            modelBuilder.Entity("ProductCompatibility.Data.Models.Role", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShopCartID")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ProductID");
+                    b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "user"
+                        });
+                });
+
+            modelBuilder.Entity("ProductCompatibility.Data.Models.ShopCartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShopCartId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ShopCartItem");
+                });
+
+            modelBuilder.Entity("ProductCompatibility.Data.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@mail.ru",
+                            Password = "123456",
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("ProductCompatibility.Data.Models.OrderDetail", b =>
                 {
                     b.HasOne("ProductCompatibility.Data.Models.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderID")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProductCompatibility.Data.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductID")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -206,7 +265,7 @@ namespace ProductCompatibility.Migrations
                 {
                     b.HasOne("ProductCompatibility.Data.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryID")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -215,19 +274,19 @@ namespace ProductCompatibility.Migrations
                 {
                     b.HasOne("ProductCompatibility.Data.Models.Compatibility", "Compatibility")
                         .WithMany("ProductsCompatibility")
-                        .HasForeignKey("CompatibilityID")
+                        .HasForeignKey("CompatibilityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProductCompatibility.Data.Models.Product", "Product1")
                         .WithMany()
-                        .HasForeignKey("Product1ID")
+                        .HasForeignKey("Product1Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProductCompatibility.Data.Models.Product", "Product2")
                         .WithMany()
-                        .HasForeignKey("Product2ID")
+                        .HasForeignKey("Product2Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -236,7 +295,14 @@ namespace ProductCompatibility.Migrations
                 {
                     b.HasOne("ProductCompatibility.Data.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductID");
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("ProductCompatibility.Data.Models.User", b =>
+                {
+                    b.HasOne("ProductCompatibility.Data.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,7 +9,7 @@ namespace ProductCompatibility.Data.Interfaces
     public interface IAllProducts
     {
         IEnumerable<Product> Products { get; }
-        Product GetObjectProducts(int productID);
+        Product GetObjectProducts(int productId);
         void CreateProduct(Product order);
     }
 }

@@ -29,13 +29,13 @@ namespace ProductCompatibility.Controllers
         [HttpPost]
         public IActionResult Add(ProductsCompatibility prodComp)
         {
-            if (prodComp.Product1ID== prodComp.Product2ID) {
-                throw new ApplicationException($"Product1ID and Product2ID can't be the same. Products must be different! Product1ID = {prodComp.Product1ID}, Product2ID = {prodComp.Product2ID} given.");
+            if (prodComp.Product1Id== prodComp.Product2Id) {
+                throw new ApplicationException($"Product1Id and Product2Id can't be the same. Products must be different! Product1Id = {prodComp.Product1Id}, Product2Id = {prodComp.Product2Id} given.");
             }
-            if (prodComp.Product1ID > prodComp.Product2ID) {
-                int temp = prodComp.Product1ID;
-                prodComp.Product1ID = prodComp.Product2ID;
-                prodComp.Product2ID = temp;
+            if (prodComp.Product1Id > prodComp.Product2Id) {
+                int temp = prodComp.Product1Id;
+                prodComp.Product1Id = prodComp.Product2Id;
+                prodComp.Product2Id = temp;
             }
 
             if (ModelState.IsValid) {

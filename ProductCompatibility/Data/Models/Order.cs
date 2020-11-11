@@ -11,7 +11,7 @@ namespace ProductCompatibility.Data.Models
     public class Order
     {
         [BindNever]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Enter name")]
         [StringLength(15)]

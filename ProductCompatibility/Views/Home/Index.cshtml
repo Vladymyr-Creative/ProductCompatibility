@@ -10,16 +10,16 @@
     <table class="product-table">
         @foreach (Product product_horizontal in Model.AllProducts) {
             <tr>
-                @if (@product_horizontal.ID != 1) {
-                    <td class="horizontal"><a href="/Product/Single/@product_horizontal.ID">@product_horizontal.Name</a></td>
+                @if (@product_horizontal.Id != 1) {
+                    <td class="horizontal"><a href="/Product/Single/@product_horizontal.Id">@product_horizontal.Name</a></td>
                 }
                 else {
                     <td></td>
                 }
 
                 @foreach (Product product_vertical in Model.AllProducts) {
-                    @if (@product_horizontal.ID == product_vertical.ID) {
-                        <td class="vertical"><a href="/Product/Single/@product_horizontal.ID">@product_horizontal.Name</a></td>
+                    @if (@product_horizontal.Id == product_vertical.Id) {
+                        <td class="vertical"><a href="/Product/Single/@product_horizontal.Id">@product_horizontal.Name</a></td>
                         break;
                     }
                     <td class="table-cell">

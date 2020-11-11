@@ -7,9 +7,9 @@ namespace ProductCompatibility.Data.Models
 {
     public class ShopCartItem
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public Product Product { get; set; }        
 
-        public string ShopCartID { get; set; }
+        public string ShopCartId { get; set; }
     }
 }

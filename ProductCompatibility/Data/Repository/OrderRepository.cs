@@ -28,8 +28,8 @@ namespace ProductCompatibility.Data.Repository
 
             foreach (var item in items) {
                 var orderDetails = new OrderDetail() {                    
-                    ProductID = item.Product.ID,
-                    OrderID = order.ID                    
+                    ProductId = item.Product.Id,
+                    OrderId = order.Id                    
                 };
                 _appDBContent.OrderDetail.Add(orderDetails);
             }

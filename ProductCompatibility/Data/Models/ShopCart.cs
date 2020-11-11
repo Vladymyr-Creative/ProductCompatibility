@@ -16,22 +16,22 @@ namespace ProductCompatibility.Data.Models
         {
             ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
             var context = services.GetService<AppDBContent>();
-            string shopCartID = session.GetString("CartID") ?? Guid.NewGuid().ToString();
+            string shopCartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
 
-            session.SetString("CartID", shopCartID);
-            return new ShopCart(context) { ID = shopCartID };
+            session.SetString("CartId", shopCartId);
+            return new ShopCart(context) { Id = shopCartId };
         }
 
         public ShopCart(AppDBContent appDBContent)
         {
             _appDBContent = appDBContent;
         }
-        public string ID { get; set; }
+        public string Id { get; set; }
         public List<ShopCartItem> ListShopItems { get; set; }
         public void AddToCart(Product product)
         {
             _appDBContent.ShopCartItem.Add(new ShopCartItem {
-                ShopCartID = ID,
+                ShopCartId = Id,
                 Product = product
             });
 
@@ -40,7 +40,7 @@ namespace ProductCompatibility.Data.Models
 
         public List<ShopCartItem> GetShopItems()
         {
-            return _appDBContent.ShopCartItem.Where(c => c.ShopCartID == ID).Include(s => s.Product).ToList();
+            return _appDBContent.ShopCartItem.Where(c => c.ShopCartId == Id).Include(s => s.Product).ToList();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCompatibility.Data.Interfaces;
 using ProductCompatibility.Data.Models;
@@ -19,6 +20,7 @@ namespace ProductCompatibility.Controllers
             _productCategories = productCategories;
         }
 
+        [AllowAnonymous]
         [Route("Product/List")]
         [Route("Product/List/{category}")]
         public ViewResult List(string category)
@@ -26,7 +28,7 @@ namespace ProductCompatibility.Controllers
             IEnumerable<Product> products = null;
             string currCategory = "";
             if (string.IsNullOrEmpty(category)) {
-                products = _allProducts.Products.OrderBy(i => i.ID);
+                products = _allProducts.Products.OrderBy(i => i.Id);
             }
             else {
                 products = _allProducts.Products.Where(i => i.Category.Name.ToLower().Equals(category.ToLower()));
@@ -45,23 +47,28 @@ namespace ProductCompatibility.Controllers
             return View();
         }
 
-        [Route("Product/Single/{productID}")]
-        public IActionResult Single(int productID)
+        [AllowAnonymous]
+        [Route("Product/Single/{productId}")]
+        public IActionResult Single(int productId)
         {
-            Product product = _allProducts.Products.Where(i => i.ID == productID).FirstOrDefault();
+            Product product = _allProducts.Products.Where(i => i.Id == productId).FirstOrDefault();
             var productObj = new ProductListViewModel {
                 Product = product
             };
             return View(productObj);
         }
 
+
+        [Authorize(Roles = "admin")]
         public IActionResult Add()
         {
             ViewBag.Categories = _productCategories.AllCategories;
             return View();
         }
 
+        
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult Add(Product product)
         {
             if (ModelState.IsValid) {

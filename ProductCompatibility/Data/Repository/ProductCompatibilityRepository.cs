@@ -23,11 +23,11 @@ namespace ProductCompatibility.Data.Repository
         {
             _appDBContent.Product.Add(product);
             _appDBContent.SaveChanges();
-        }
-
-        public ProductsCompatibility GetObjectProductsCompatibility(int productID1, int productID2)
-        {
-            return _appDBContent.ProductsCompatibility.Where(p => p.Product1ID == productID1).Where(p => p.Product2ID == productID2).FirstOrDefault();
+        }        
+        
+        public ProductsCompatibility GetObjectProductsCompatibility(int productId1, int productId2)
+        {            
+            return _appDBContent.ProductsCompatibility.Where(p => p.Product1Id == productId1).Where(p => p.Product2Id == productId2).FirstOrDefault();
         }
 
         public void CreateProductsCompatibility(ProductsCompatibility productsCompatibility)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProductCompatibility.Data.Interfaces;
@@ -13,20 +14,23 @@ namespace ProductCompatibility.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IAllProducts _prodRep;        
+        private readonly IAllProducts _prodRep;
 
         public HomeController(IAllProducts prodRep)
         {
-            _prodRep = prodRep;            
+            _prodRep = prodRep;
         }
-        public ViewResult Index()
-        {
+
+        [Authorize(Roles = "admin, user")]
+        public IActionResult Index()
+        {         
             var homeProducts = new HomeViewModel {
                 AllProducts = _prodRep.Products
             };
             return View(homeProducts);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Privacy()
         {
             return View();

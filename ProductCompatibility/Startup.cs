@@ -14,24 +14,30 @@ using ProductCompatibility.Data.Interfaces;
 using Models = ProductCompatibility.Data.Models;
 using ProductCompatibility.Data.Repository;
 using Microsoft.AspNetCore.Http;
-using ProductCompatibility.Migrations;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ProductCompatibility
 {
     public class Startup
     {
-        public Startup(IWebHostEnvironment configuration)
-        {            
-            Configuration = (IConfigurationRoot)new ConfigurationBuilder().SetBasePath(configuration.ContentRootPath).AddJsonFile("appsettings.json").Build();
-        }
+        private readonly IConfiguration _configuration;
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }        
 
-        private IConfigurationRoot Configuration;        
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {            
-            services.AddDbContext<AppDBContent>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+            string connection = _configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<AppDBContent>(options => options.UseSqlServer(connection));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+              .AddCookie(options => //CookieAuthenticationOptions
+                {
+                  options.LoginPath = new PathString("/Account/Login");                    
+                    options.AccessDeniedPath = new PathString("/Account/Login");
+                });
+
             services.AddTransient<IAllProducts, ProductRepository>();
             services.AddTransient<IAllCategories, CatogoryRepository>();
 
@@ -48,7 +54,6 @@ namespace ProductCompatibility
             services.AddSession();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) {
@@ -60,11 +65,14 @@ namespace ProductCompatibility
             }
 
             app.UseStatusCodePages();
-            app.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseRouting();                        
             app.UseSession();
-            app.UseRouting();
-            //app.UseHttpsRedirection();
-            
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseStaticFiles();
+
+
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",

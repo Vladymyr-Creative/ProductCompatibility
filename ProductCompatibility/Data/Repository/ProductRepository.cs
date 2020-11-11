@@ -19,7 +19,7 @@ namespace ProductCompatibility.Data.Repository
 
         public IEnumerable<Product> Products => _appDBContent.Product.Include(c=>c.Category);
 
-        public Product GetObjectProducts(int productID) => _appDBContent.Product.FirstOrDefault(p => p.ID == productID);
+        public Product GetObjectProducts(int productId) => _appDBContent.Product.FirstOrDefault(p => p.Id == productId);
 
         public void CreateProduct(Product product)
         {            

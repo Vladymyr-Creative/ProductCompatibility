@@ -34,7 +34,7 @@ namespace ProductCompatibility.Controllers
 
         public RedirectToActionResult AddToCart(int prodId)
         {
-            var item = _prodRep.Products.FirstOrDefault(i => i.ID == prodId);
+            var item = _prodRep.Products.FirstOrDefault(i => i.Id == prodId);
             if (item!=null) {
                 _shopCart.AddToCart(item);
             }
