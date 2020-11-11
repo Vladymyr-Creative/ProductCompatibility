@@ -19,9 +19,6 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Product/Add">Add Product</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" href="/Product/List">All Products</a>
                         </li>
                         <li class="nav-item">
@@ -33,9 +30,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/Product/List/neutral">Neutral</a>
                         </li>
-                       @* <li class="nav-item">
-                            <a class="nav-link text-dark" href="/ShopCart/Index">To Cart</a>
-                        </li>*@
+
+                        @if (User.IsInRole("admin")) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Product/Add">Add Product</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/ProductsCompatibility/Add">Add Compatibility</a>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
+
+
+                        @* <li class="nav-item">
+                                <a class="nav-link text-dark" href="/ShopCart/Index">To Cart</a>
+                            </li>*@
                     </ul>
                 </div>
             </div>

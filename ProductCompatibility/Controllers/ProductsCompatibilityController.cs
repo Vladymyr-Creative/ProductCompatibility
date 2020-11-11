@@ -12,25 +12,33 @@ namespace ProductCompatibility.Controllers
     public class ProductsCompatibilityController : Controller
     {
         private readonly IAllProductsCompatibilities _allProductsCompatibilities;
+        private readonly IAllProducts _allProducts;
         private readonly IAllCompatibilities _allCompatibilities;
-        
-        public ProductsCompatibilityController(IAllProductsCompatibilities allProductsCompatibilities, IAllCompatibilities allCompatibilities)
+
+        public ProductsCompatibilityController(
+            IAllProductsCompatibilities allProductsCompatibilities,
+            IAllProducts allProducts,
+            IAllCompatibilities allCompatibilities
+            )
         {
             _allProductsCompatibilities = allProductsCompatibilities;
+            _allProducts = allProducts;
             _allCompatibilities = allCompatibilities;
         }
 
         public IActionResult Add()
         {
-            ViewBag.ProductsComapatibilities = _allProductsCompatibilities.AllProductsComapatibilities;
+            ViewBag.viewModel = GetProdCompViewModel();
             return View();
         }
 
         [HttpPost]
         public IActionResult Add(ProductsCompatibility prodComp)
         {
-            if (prodComp.Product1Id== prodComp.Product2Id) {
-                throw new ApplicationException($"Product1Id and Product2Id can't be the same. Products must be different! Product1Id = {prodComp.Product1Id}, Product2Id = {prodComp.Product2Id} given.");
+            ViewBag.viewModel = GetProdCompViewModel();
+
+            if (prodComp.Product1Id == prodComp.Product2Id) {
+                return View(prodComp);
             }
             if (prodComp.Product1Id > prodComp.Product2Id) {
                 int temp = prodComp.Product1Id;
@@ -39,11 +47,25 @@ namespace ProductCompatibility.Controllers
             }
 
             if (ModelState.IsValid) {
-                _allProductsCompatibilities.CreateProductsCompatibility(prodComp);
+                if (_allProductsCompatibilities.GetByIds(prodComp.Product1Id, prodComp.Product2Id) == null) {
+                    _allProductsCompatibilities.Create(prodComp);
+                }
+                else {
+                    _allProductsCompatibilities.Update(prodComp);
+                }
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.ProductsComapatibilities = _allProductsCompatibilities.AllProductsComapatibilities;
+
             return View(prodComp);
+        }
+
+        private ProductsCompatibilityViewModel GetProdCompViewModel()
+        {
+            return new ProductsCompatibilityViewModel {
+                AllProdCompatibilities = _allProductsCompatibilities.All,
+                AllProducts = _allProducts.All,
+                Compatibilities = _allCompatibilities.All,
+            };
         }
     }
 }

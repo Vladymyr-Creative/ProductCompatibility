@@ -8,8 +8,9 @@ namespace ProductCompatibility.Data.Interfaces
 {
     public interface IAllProductsCompatibilities
     {
-        IEnumerable<ProductsCompatibility> AllProductsComapatibilities { get;}
-        ProductsCompatibility GetObjectProductsCompatibility(int productId1, int productId2);
-        void CreateProductsCompatibility(ProductsCompatibility productsCompatibility);
+        IEnumerable<ProductsCompatibility> All { get;}
+        ProductsCompatibility GetByIds(int Id1, int Id2);
+        void Create(ProductsCompatibility productsCompatibility);
+        void Update(ProductsCompatibility productsCompatibility);
     }
 }

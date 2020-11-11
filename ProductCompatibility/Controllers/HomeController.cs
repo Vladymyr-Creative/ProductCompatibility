@@ -15,17 +15,20 @@ namespace ProductCompatibility.Controllers
     public class HomeController : Controller
     {
         private readonly IAllProducts _prodRep;
+        private readonly IAllProductsCompatibilities _prodCompatibilityRep;
 
-        public HomeController(IAllProducts prodRep)
+        public HomeController(IAllProducts prodRep , IAllProductsCompatibilities prodCompatibilityRep)
         {
             _prodRep = prodRep;
+            _prodCompatibilityRep = prodCompatibilityRep;
         }
 
-        [Authorize(Roles = "admin, user")]
+        //[Authorize(Roles = "admin, user")]
         public IActionResult Index()
         {         
             var homeProducts = new HomeViewModel {
-                AllProducts = _prodRep.Products
+                AllProducts = _prodRep.All,
+                AllProductsCompatibilities = _prodCompatibilityRep.All
             };
             return View(homeProducts);
         }

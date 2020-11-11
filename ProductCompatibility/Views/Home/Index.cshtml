@@ -4,31 +4,35 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<h1>
+</h1>
 
 <div class="text-center">
     <h1 class="display-4">Home Products</h1>
     <table class="product-table">
-        @foreach (Product product_horizontal in Model.AllProducts) {
+        @foreach (Product prodHorizontal in Model.AllProducts) {
             <tr>
-                @if (@product_horizontal.Id != 1) {
-                    <td class="horizontal"><a href="/Product/Single/@product_horizontal.Id">@product_horizontal.Name</a></td>
+                @if (@prodHorizontal.Id != 1) {
+                    <td class="horizontal"><a href="/Product/Single/@prodHorizontal.Id">@prodHorizontal.Name</a></td>
                 }
                 else {
                     <td></td>
                 }
 
-                @foreach (Product product_vertical in Model.AllProducts) {
-                    @if (@product_horizontal.Id == product_vertical.Id) {
-                        <td class="vertical"><a href="/Product/Single/@product_horizontal.Id">@product_horizontal.Name</a></td>
+                @foreach (Product prodVertical in Model.AllProducts) {
+                    @if (@prodHorizontal.Id == prodVertical.Id) {
+                        <td class="vertical"><a href="/Product/Single/@prodHorizontal.Id">@prodHorizontal.Name</a></td>
                         break;
                     }
                     <td class="table-cell">
-                       @* <select>
-                            <option value="1">Perfect</option>
-                            <option value="2">Good</option>
-                            <option value="3">Bad</option>
-                            <option value="4">Awful</option>
-                        </select>*@
+                        @foreach (var item in Model.AllProductsCompatibilities) {
+                            if (item.Product1Id == prodHorizontal.Id && item.Product2Id == prodVertical.Id) {
+                                <b>@item.Compatibility.Name</b>
+                            }
+                            if (item.Product2Id == prodHorizontal.Id && item.Product1Id == prodVertical.Id) {
+                                <b>@item.Compatibility.Name</b>
+                            }
+                        }
                     </td>
                 }
             </tr>

@@ -10,6 +10,7 @@ using ProductCompatibility.ViewModels;
 
 namespace ProductCompatibility.Controllers
 {
+    [Route("[controller]/[action]/")]
     public class ProductController : Controller
     {
         private readonly IAllProducts _allProducts;
@@ -20,18 +21,16 @@ namespace ProductCompatibility.Controllers
             _productCategories = productCategories;
         }
 
-        [AllowAnonymous]
-        [Route("Product/List")]
-        [Route("Product/List/{category}")]
+        [Route("{category?}")]
         public ViewResult List(string category)
         {
             IEnumerable<Product> products = null;
             string currCategory = "";
             if (string.IsNullOrEmpty(category)) {
-                products = _allProducts.Products.OrderBy(i => i.Id);
+                products = _allProducts.All.OrderBy(i => i.Id);
             }
             else {
-                products = _allProducts.Products.Where(i => i.Category.Name.ToLower().Equals(category.ToLower()));
+                products = _allProducts.All.Where(i => i.Category.Name.ToLower().Equals(category.ToLower()));
                 currCategory = category;
             }
 
@@ -47,11 +46,10 @@ namespace ProductCompatibility.Controllers
             return View();
         }
 
-        [AllowAnonymous]
-        [Route("Product/Single/{productId}")]
+        [Route("{productId?}")]
         public IActionResult Single(int productId)
         {
-            Product product = _allProducts.Products.Where(i => i.Id == productId).FirstOrDefault();
+            Product product = _allProducts.All.Where(i => i.Id == productId).FirstOrDefault();
             var productObj = new ProductListViewModel {
                 Product = product
             };
@@ -59,7 +57,7 @@ namespace ProductCompatibility.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult Add()
         {
             ViewBag.Categories = _productCategories.AllCategories;
@@ -68,11 +66,35 @@ namespace ProductCompatibility.Controllers
 
         
         [HttpPost]
-        [Authorize(Roles = "admin")]
+       // [Authorize(Roles = "admin")]
         public IActionResult Add(Product product)
         {
             if (ModelState.IsValid) {
-                _allProducts.CreateProduct(product);
+                _allProducts.Create(product);
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Categories = _productCategories.AllCategories;
+            return View(product);
+        }
+
+        [Route("{productId}")]
+        public IActionResult Edit(int productId)
+        {
+            var product = _allProducts.FindById(productId);
+            if (product == null) {
+                return NotFound();
+            }
+            ViewBag.Categories = _productCategories.AllCategories;
+            return View(product);
+        }
+
+
+        [HttpPost]
+        // [Authorize(Roles = "admin")]
+        public IActionResult Editing(Product product)
+        {
+            if (ModelState.IsValid) {
+                _allProducts.Update(product);
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Categories = _productCategories.AllCategories;

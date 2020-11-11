@@ -17,22 +17,22 @@ namespace ProductCompatibility.Data.Repository
             _appDBContent = appDBContent;
         }
 
-        public IEnumerable<ProductsCompatibility> AllProductsComapatibilities => _appDBContent.ProductsCompatibility.Include(p => p.Product1).Include(p => p.Product2);
-
-        public void CreateProduct(Product product)
-        {
-            _appDBContent.Product.Add(product);
-            _appDBContent.SaveChanges();
-        }        
+        public IEnumerable<ProductsCompatibility> All => _appDBContent.ProductsCompatibility.Include(p => p.Compatibility).Include(p => p.Product1).Include(p => p.Product2);
         
-        public ProductsCompatibility GetObjectProductsCompatibility(int productId1, int productId2)
+        public ProductsCompatibility GetByIds(int Id1, int Id2)
         {            
-            return _appDBContent.ProductsCompatibility.Where(p => p.Product1Id == productId1).Where(p => p.Product2Id == productId2).FirstOrDefault();
+            return _appDBContent.ProductsCompatibility.Where(p => p.Product1Id == Id1).Where(p => p.Product2Id == Id2).FirstOrDefault();
         }
 
-        public void CreateProductsCompatibility(ProductsCompatibility productsCompatibility)
+        public void Create(ProductsCompatibility productsCompatibility)
         {
             _appDBContent.ProductsCompatibility.Add(productsCompatibility);
+            _appDBContent.SaveChanges();
+        }
+
+        public void Update(ProductsCompatibility productsCompatibility)
+        {
+            _appDBContent.ProductsCompatibility.Update(productsCompatibility);
             _appDBContent.SaveChanges();
         }
     }

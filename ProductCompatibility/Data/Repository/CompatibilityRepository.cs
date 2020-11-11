@@ -15,6 +15,6 @@ namespace ProductCompatibility.Data.Repository
         {
             _appDBContent = appDBContent;
         }
-        public IEnumerable<Compatibility> AllCompatibilities => _appDBContent.Compatibility;                
+        public IEnumerable<Compatibility> All => _appDBContent.Compatibility;                
     }
 }

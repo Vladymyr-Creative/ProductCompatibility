@@ -11,10 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProductCompatibility.Data;
 using ProductCompatibility.Data.Interfaces;
-using Models = ProductCompatibility.Data.Models;
 using ProductCompatibility.Data.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ProductCompatibility.Data.Models;
 
 namespace ProductCompatibility
 {
@@ -47,7 +47,7 @@ namespace ProductCompatibility
             services.AddTransient<IAllOrders, OrderRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sp=> Models.ShopCart.GetCart(sp));
+            services.AddScoped(sp=> ShopCart.GetCart(sp));
 
             services.AddMvc();
             services.AddMemoryCache();

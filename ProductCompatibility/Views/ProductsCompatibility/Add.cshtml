@@ -4,3 +4,47 @@
     <h3>Add new Products Compatibility</h3>
 </div>
 
+<div class="row justify-content-center">
+
+    <form asp-action="Add" method="post" class="list-group-horizontal form-add-product">
+        <div class="form-group">
+            <label asp-for="Product1Id"></label>
+            <div class="col-md">
+                <select class="form-control" asp-for="Product1Id" required value="@Model?.Product1Id">
+                    @foreach (var product in @ViewBag.viewModel.AllProducts) {
+                        <option value="@product.Id">@product.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Product1Id" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Product2Id"></label>
+            <div class="col-md">
+                <select class="form-control" asp-for="Product2Id" required value="@Model?.Product2Id">
+                    @foreach (var product in @ViewBag.viewModel.AllProducts) {
+                        <option value="@product.Id">@product.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Product2Id" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CompatibilityId"></label>
+            <div class="col-md">
+                <select class="form-control" asp-for="CompatibilityId" required value="@Model?.CompatibilityId">
+                    @foreach (var compatibility in @ViewBag.viewModel.Compatibilities) {
+                        <option value="@compatibility.Id">@compatibility.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CompatibilityId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <input type="submit" class="btn btn-success" value="Add Product" />
+        </div>
+    </form>
+</div>

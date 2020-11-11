@@ -8,6 +8,6 @@ namespace ProductCompatibility.Data.Interfaces
 {
     public interface IAllCompatibilities
     {
-        IEnumerable<Compatibility> AllCompatibilities { get;}
+        IEnumerable<Compatibility> All { get;}
     }
 }

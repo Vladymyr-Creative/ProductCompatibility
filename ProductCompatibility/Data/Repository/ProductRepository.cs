@@ -17,13 +17,19 @@ namespace ProductCompatibility.Data.Repository
             _appDBContent = appDBContent;
         }
 
-        public IEnumerable<Product> Products => _appDBContent.Product.Include(c=>c.Category);
+        public IEnumerable<Product> All => _appDBContent.Product.Include(c=>c.Category);
 
-        public Product GetObjectProducts(int productId) => _appDBContent.Product.FirstOrDefault(p => p.Id == productId);
+        public Product FindById(int id) => _appDBContent.Product.FirstOrDefault(p => p.Id == id);
 
-        public void CreateProduct(Product product)
+        public void Create(Product product)
         {            
             _appDBContent.Product.Add(product);
+            _appDBContent.SaveChanges();
+        }
+
+        public void Update(Product product)
+        {
+            _appDBContent.Product.Update(product);
             _appDBContent.SaveChanges();
         }
     }
