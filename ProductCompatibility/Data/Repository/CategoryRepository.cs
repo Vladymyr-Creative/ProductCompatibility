@@ -7,32 +7,33 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Repository
 {
-    public class CompatibilityRepository : IRepository<Compatibility>
+    public class CategoryRepository : IRepository<Category>
     {
         private readonly AppDBContent _appDBContent;
 
-        public CompatibilityRepository(AppDBContent appDBContent)
+        public CategoryRepository(AppDBContent appDBContent)
         {
             _appDBContent = appDBContent;
-        }
-        public IEnumerable<Compatibility> All => _appDBContent.Compatibility;
+        }        
 
-        public Task AddAsync(Compatibility entity)
+        public IEnumerable<Category> All => _appDBContent.Category;
+
+        public Task AddAsync(Category entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(Compatibility entity)
+        public Task DeleteAsync(Category entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Compatibility> FindByIdAsync(int id)
+        public Task<Category> FindByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Compatibility entity)
+        public Task UpdateAsync(Category entity)
         {
             throw new NotImplementedException();
         }

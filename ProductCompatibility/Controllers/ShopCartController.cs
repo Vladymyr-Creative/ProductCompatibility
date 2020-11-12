@@ -11,12 +11,12 @@ namespace ProductCompatibility.Controllers
 {
     public class ShopCartController : Controller
     {
-        private readonly IAllProducts _prodRep;
+        private readonly IRepository<Product> _repoProd;
         private readonly ShopCart _shopCart;
 
-        public ShopCartController(IAllProducts prodRep, ShopCart shopCart)
+        public ShopCartController(IRepository<Product> repoProd, ShopCart shopCart)
         {
-            _prodRep = prodRep;
+            _repoProd = repoProd;
             _shopCart = shopCart;
         }
 
@@ -32,9 +32,9 @@ namespace ProductCompatibility.Controllers
             return View(obj);
         }
 
-        public RedirectToActionResult AddToCart(int prodId)
+        public async Task<RedirectToActionResult> AddToCart(int id)
         {
-            var item = _prodRep.All.FirstOrDefault(i => i.Id == prodId);
+            var item = await _repoProd.FindByIdAsync(id);
             if (item!=null) {
                 _shopCart.AddToCart(item);
             }

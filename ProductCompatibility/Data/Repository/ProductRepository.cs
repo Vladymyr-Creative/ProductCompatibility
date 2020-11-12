@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Repository
 {
-    public class ProductRepository : IAllProducts
+    public class ProductRepository : IRepository<Product>
     {
         private readonly AppDBContent _appDBContent;
 
@@ -19,18 +19,24 @@ namespace ProductCompatibility.Data.Repository
 
         public IEnumerable<Product> All => _appDBContent.Product.Include(c=>c.Category);
 
-        public Product FindById(int id) => _appDBContent.Product.FirstOrDefault(p => p.Id == id);
+        public async Task<Product> FindByIdAsync(int id) => await _appDBContent.Product.FirstOrDefaultAsync(p => p.Id == id);
 
-        public void Create(Product product)
+        public async Task AddAsync(Product product)
         {            
-            _appDBContent.Product.Add(product);
-            _appDBContent.SaveChanges();
+            await _appDBContent.Product.AddAsync(product);
+            await _appDBContent.SaveChangesAsync();
         }
 
-        public void Update(Product product)
+        public async Task UpdateAsync(Product product)
         {
             _appDBContent.Product.Update(product);
-            _appDBContent.SaveChanges();
+            await _appDBContent.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Product product)
+        {
+            _appDBContent.Product.Remove(product);
+            await _appDBContent.SaveChangesAsync();
         }
     }
 }

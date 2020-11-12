@@ -19,21 +19,21 @@ namespace ProductCompatibility.Data.Repository
 
         public IEnumerable<ProductsCompatibility> All => _appDBContent.ProductsCompatibility.Include(p => p.Compatibility).Include(p => p.Product1).Include(p => p.Product2);
         
-        public ProductsCompatibility GetByIds(int Id1, int Id2)
+        public async Task<ProductsCompatibility> GetByIdsAsync(int Id1, int Id2)
         {            
-            return _appDBContent.ProductsCompatibility.Where(p => p.Product1Id == Id1).Where(p => p.Product2Id == Id2).FirstOrDefault();
+            return await _appDBContent.ProductsCompatibility.Where(p => p.Product1Id == Id1).Where(p => p.Product2Id == Id2).FirstOrDefaultAsync();
         }
 
-        public void Create(ProductsCompatibility productsCompatibility)
+        public async Task AddAsync(ProductsCompatibility productsCompatibility)
         {
-            _appDBContent.ProductsCompatibility.Add(productsCompatibility);
-            _appDBContent.SaveChanges();
+            await _appDBContent.ProductsCompatibility.AddAsync(productsCompatibility);
+            await _appDBContent.SaveChangesAsync();
         }
 
-        public void Update(ProductsCompatibility productsCompatibility)
+        public async Task UpdateAsync(ProductsCompatibility productsCompatibility)
         {
             _appDBContent.ProductsCompatibility.Update(productsCompatibility);
-            _appDBContent.SaveChanges();
+            await _appDBContent.SaveChangesAsync();
         }
     }
 }

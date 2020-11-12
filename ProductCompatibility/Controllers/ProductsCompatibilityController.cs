@@ -11,19 +11,19 @@ namespace ProductCompatibility.Controllers
 {
     public class ProductsCompatibilityController : Controller
     {
-        private readonly IAllProductsCompatibilities _allProductsCompatibilities;
-        private readonly IAllProducts _allProducts;
-        private readonly IAllCompatibilities _allCompatibilities;
+        private readonly IAllProductsCompatibilities _repoProdComp;
+        private readonly IRepository<Product> _repoProd;
+        private readonly IRepository<Compatibility> _repoComp;
 
         public ProductsCompatibilityController(
-            IAllProductsCompatibilities allProductsCompatibilities,
-            IAllProducts allProducts,
-            IAllCompatibilities allCompatibilities
+            IAllProductsCompatibilities repoProdComp,
+            IRepository<Product> repoProd,
+            IRepository<Compatibility> repoComp
             )
         {
-            _allProductsCompatibilities = allProductsCompatibilities;
-            _allProducts = allProducts;
-            _allCompatibilities = allCompatibilities;
+            _repoProdComp = repoProdComp;
+            _repoProd = repoProd;
+            _repoComp = repoComp;
         }
 
         public IActionResult Add()
@@ -47,11 +47,11 @@ namespace ProductCompatibility.Controllers
             }
 
             if (ModelState.IsValid) {
-                if (_allProductsCompatibilities.GetByIds(prodComp.Product1Id, prodComp.Product2Id) == null) {
-                    _allProductsCompatibilities.Create(prodComp);
+                if (_repoProdComp.GetByIdsAsync(prodComp.Product1Id, prodComp.Product2Id) == null) {
+                    _repoProdComp.AddAsync(prodComp);
                 }
                 else {
-                    _allProductsCompatibilities.Update(prodComp);
+                    _repoProdComp.UpdateAsync(prodComp);
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -62,9 +62,9 @@ namespace ProductCompatibility.Controllers
         private ProductsCompatibilityViewModel GetProdCompViewModel()
         {
             return new ProductsCompatibilityViewModel {
-                AllProdCompatibilities = _allProductsCompatibilities.All,
-                AllProducts = _allProducts.All,
-                Compatibilities = _allCompatibilities.All,
+                AllProdCompatibilities = _repoProdComp.All,
+                AllProducts = _repoProd.All,
+                Compatibilities = _repoComp.All,
             };
         }
     }

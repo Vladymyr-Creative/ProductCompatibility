@@ -14,21 +14,21 @@ namespace ProductCompatibility.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IAllProducts _prodRep;
-        private readonly IAllProductsCompatibilities _prodCompatibilityRep;
+        private readonly IRepository<Product> _repoProd;
+        private readonly IAllProductsCompatibilities _repoProdComp;
 
-        public HomeController(IAllProducts prodRep , IAllProductsCompatibilities prodCompatibilityRep)
+        public HomeController(IRepository<Product> repoProd, IAllProductsCompatibilities repoProdComp)
         {
-            _prodRep = prodRep;
-            _prodCompatibilityRep = prodCompatibilityRep;
+            _repoProd = repoProd;
+            _repoProdComp = repoProdComp;
         }
 
         //[Authorize(Roles = "admin, user")]
         public IActionResult Index()
         {         
             var homeProducts = new HomeViewModel {
-                AllProducts = _prodRep.All,
-                AllProductsCompatibilities = _prodCompatibilityRep.All
+                AllProducts = _repoProd.All,
+                AllProductsCompatibilities = _repoProdComp.All
             };
             return View(homeProducts);
         }

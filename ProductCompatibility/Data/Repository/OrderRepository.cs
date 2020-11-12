@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Repository
 {
-    public class OrderRepository : IAllOrders
+    public class OrderRepository : IRepository<Order>
     {
         private readonly AppDBContent _appDBContent;
         private readonly ShopCart _shopCart;
@@ -18,22 +18,39 @@ namespace ProductCompatibility.Data.Repository
             _shopCart = shopCart;
         }
 
-        public void CreateOrder(Order order)
+        public IEnumerable<Order> All => throw new NotImplementedException();
+
+        public async Task AddAsync(Order order)
         {
             order.OrderTime = DateTime.Now;
-            _appDBContent.Order.Add(order);
-            _appDBContent.SaveChanges();
+            await _appDBContent.Order.AddAsync(order);
+            await _appDBContent.SaveChangesAsync();
 
             var items = _shopCart.ListShopItems;
 
             foreach (var item in items) {
-                var orderDetails = new OrderDetail() {                    
+                var orderDetails = new OrderDetail() {
                     ProductId = item.Product.Id,
-                    OrderId = order.Id                    
+                    OrderId = order.Id
                 };
-                _appDBContent.OrderDetail.Add(orderDetails);
+                await _appDBContent.OrderDetail.AddAsync(orderDetails);
             }
-            _appDBContent.SaveChanges();
+            await _appDBContent.SaveChangesAsync();
+        }
+
+        public Task DeleteAsync(Order entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Order> FindByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Order entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

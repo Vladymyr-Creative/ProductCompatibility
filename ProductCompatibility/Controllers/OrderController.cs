@@ -10,12 +10,12 @@ namespace ProductCompatibility.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IAllOrders _allOrders;
+        private readonly IRepository<Order> _repoOrder;
         private readonly ShopCart _shopCart;
 
-        public OrderController(IAllOrders allOrders, ShopCart shopCart)
+        public OrderController(IRepository<Order> repoOrder, ShopCart shopCart)
         {
-            _allOrders = allOrders;
+            _repoOrder = repoOrder;
             _shopCart = shopCart;
         }
 
@@ -24,14 +24,14 @@ namespace ProductCompatibility.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(Order order)
+        public async Task<IActionResult> Checkout(Order order)
         {
             _shopCart.ListShopItems = _shopCart.GetShopItems();
             if (_shopCart.ListShopItems.Count() == 0) {
                 ModelState.AddModelError("", "The Cart can't be empty");
             }
             if (ModelState.IsValid) {
-                _allOrders.CreateOrder(order);
+                await _repoOrder.AddAsync(order);
                 return RedirectToAction("Index", "Home");
             }
 

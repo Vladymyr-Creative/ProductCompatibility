@@ -16,12 +16,12 @@ namespace ProductCompatibility.Controllers
     public class ProductController : Controller
     {
         private readonly IRepository<Product> _repoProd;
-        private readonly IAllCategories _productCategories;
-        private readonly AppDBContent _appDBContent;
-        public ProductController(IRepository<Product> allProducts, IAllCategories productCategories)
+        private readonly IRepository<Category> _repoCat;
+
+        public ProductController(IRepository<Product> repoProd, IRepository<Category> repoCat)
         {
-            _repoProd = allProducts;
-            _productCategories = productCategories;
+            _repoProd = repoProd;
+            _repoCat = repoCat;
         }
 
         [Route("{category?}")]
@@ -44,11 +44,6 @@ namespace ProductCompatibility.Controllers
             return View(productObj);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Route("{id?}")]
         public async Task<IActionResult> Single(int id)
         {
@@ -63,7 +58,7 @@ namespace ProductCompatibility.Controllers
         //[Authorize(Roles = "admin")]
         public IActionResult Add()
         {
-            ViewBag.Categories = _productCategories.AllCategories;
+            ViewBag.Categories = _repoCat.All;
             return View();
         }
 
@@ -76,7 +71,7 @@ namespace ProductCompatibility.Controllers
                 await _repoProd.AddAsync(product);
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Categories = _productCategories.AllCategories;
+            ViewBag.Categories = _repoCat.All;
             return View(product);
         }
 
@@ -86,7 +81,7 @@ namespace ProductCompatibility.Controllers
         {
             var product = await _repoProd.FindByIdAsync(id);
             if (product != null) {
-                ViewBag.Categories = _productCategories.AllCategories;
+                ViewBag.Categories = _repoCat.All;
                 return View(product);
             }
             return NotFound();
@@ -99,7 +94,7 @@ namespace ProductCompatibility.Controllers
         public async Task<IActionResult> Edit(int id, [FromForm] Product editedProd)
         {
             if (!ModelState.IsValid) {
-                ViewBag.Categories = _productCategories.AllCategories;
+                ViewBag.Categories = _repoCat.All;
                 editedProd.Id = id;
                 return View(editedProd);
             }
@@ -110,13 +105,10 @@ namespace ProductCompatibility.Controllers
                 prod.Description = editedProd.Description;
                 prod.CategoryId = editedProd.CategoryId;
                 prod.Img = editedProd.Img;
-                await _repoProd.UpdateAsync(editedProd);
+                await _repoProd.UpdateAsync(prod);
                 return RedirectToAction("Index", "Home");
             }
             return NotFound();
-
-
         }
-
     }
 }

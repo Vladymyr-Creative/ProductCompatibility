@@ -38,17 +38,14 @@ namespace ProductCompatibility
                     options.AccessDeniedPath = new PathString("/Account/Login");
                 });
 
-            services.AddTransient<IAllProducts, ProductRepository>();
-            services.AddTransient<IAllCategories, CatogoryRepository>();
-
-            services.AddTransient<IAllCompatibilities, CompatibilityRepository>();
-            services.AddTransient<IAllProductsCompatibilities, ProductsCompatibilityRepository>();
-
-            services.AddTransient<IAllOrders, OrderRepository>();
+            services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IRepository<Category>, CategoryRepository>();
+            services.AddScoped<IRepository<Compatibility>, CompatibilityRepository>();
+            services.AddScoped<IRepository<Order>, OrderRepository>();
+            services.AddScoped<IAllProductsCompatibilities, ProductsCompatibilityRepository>();
+            services.AddScoped(sp => ShopCart.GetCart(sp));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sp=> ShopCart.GetCart(sp));
-
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
