@@ -33,7 +33,7 @@ namespace ProductCompatibility.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ProductsCompatibility prodComp)
+        public async Task<IActionResult> Add(ProductsCompatibility prodComp)
         {
             ViewBag.viewModel = GetProdCompViewModel();
 
@@ -47,16 +47,24 @@ namespace ProductCompatibility.Controllers
             }
 
             if (ModelState.IsValid) {
-                if (_repoProdComp.GetByIdsAsync(prodComp.Product1Id, prodComp.Product2Id) == null) {
-                    _repoProdComp.AddAsync(prodComp);
+                var prodCompOld = await _repoProdComp.GetByIdsAsync(prodComp.Product1Id, prodComp.Product2Id);
+                if (prodCompOld == null) {
+                    await _repoProdComp.AddAsync(prodComp);
                 }
-                else {
-                    _repoProdComp.UpdateAsync(prodComp);
+                else {                    
+                    prodCompOld.CompatibilityId = prodComp.CompatibilityId;
+                    await  _repoProdComp.UpdateAsync(prodCompOld);
                 }
                 return RedirectToAction("Index", "Home");
             }
 
             return View(prodComp);
+        }
+
+        public IActionResult Edit()
+        {
+            ViewBag.viewModel = GetProdCompViewModel();
+            return View();
         }
 
         private ProductsCompatibilityViewModel GetProdCompViewModel()

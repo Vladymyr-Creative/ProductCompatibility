@@ -31,14 +31,17 @@
                             <a class="nav-link text-dark" href="/Product/List/neutral">Neutral</a>
                         </li>
 
-                        @if (User.IsInRole("admin")) {
+                       @* @if (User.IsInRole("admin")) {*@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/Product/Add">Add Product</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/ProductsCompatibility/Add">Add Compatibility</a>
                             </li>
-                        }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/ProductsCompatibility/Edit">Edit Compatibility</a>
+                            </li>
+                      @*  }*@
 
                         @if (User.Identity.IsAuthenticated) {
                             <li class="nav-item">
@@ -53,8 +56,8 @@
 
 
                         @* <li class="nav-item">
-                                <a class="nav-link text-dark" href="/ShopCart/Index">To Cart</a>
-                            </li>*@
+            <a class="nav-link text-dark" href="/ShopCart/Index">To Cart</a>
+        </li>*@
                     </ul>
                 </div>
             </div>

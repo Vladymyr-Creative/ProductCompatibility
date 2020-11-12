@@ -6,13 +6,11 @@
 
 <div class="text-center card">
     <img src="#" alt="@Model.Product.Img" />
-    <div class="d-flex justify-content-between">
-        <h1 class="display-4">@Model.Product.Name</h1>
-        <div>
-            <a href="/Product/Edit/@Model.Product.Id">edit</a>
-        </div>
+    <h1 class="display-4">@Model.Product.Name</h1>
+    <div>
+        <a href="/Product/Edit/@Model.Product.Id">edit</a>
     </div>
-    
+
     <p>@Model.Product.Description</p>
 </div>
 
