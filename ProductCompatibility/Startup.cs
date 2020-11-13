@@ -24,17 +24,17 @@ namespace ProductCompatibility
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-        }        
+        }
 
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
             string connection = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDBContent>(options => options.UseSqlServer(connection));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(options => //CookieAuthenticationOptions
                 {
-                  options.LoginPath = new PathString("/Account/Login");                    
+                    options.LoginPath = new PathString("/Account/Login");
                     options.AccessDeniedPath = new PathString("/Account/Login");
                 });
 
@@ -45,7 +45,12 @@ namespace ProductCompatibility
             services.AddScoped<IAllProductsCompatibilities, ProductsCompatibilityRepository>();
             services.AddScoped(sp => ShopCart.GetCart(sp));
 
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
@@ -54,16 +59,16 @@ namespace ProductCompatibility
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
             else {
-                app.UseExceptionHandler("/Home/Error");            
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
             app.UseStatusCodePages();
             app.UseHttpsRedirection();
-            app.UseRouting();                        
+            app.UseRouting();
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -76,7 +81,7 @@ namespace ProductCompatibility
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "categoryFilter",
-                    pattern: "Product/action/{category?}", 
+                    pattern: "Product/action/{category?}",
                     defaults: new { Controller = "Product", action = "List" });
             });
 

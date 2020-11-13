@@ -19,13 +19,20 @@ namespace ProductCompatibility.Data.Repository
 
         public IEnumerable<Product> All => _appDBContent.Product.Include(c=>c.Category);
 
-        public async Task<Product> FindByIdAsync(int id) => await _appDBContent.Product.FirstOrDefaultAsync(p => p.Id == id);
+        public async Task<Product> FindByIdAsync(int id) => await _appDBContent.Product.Include(p=>p.Category).FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task AddAsync(Product product)
         {            
             await _appDBContent.Product.AddAsync(product);
             await _appDBContent.SaveChangesAsync();
         }
+        /*
+           [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> Get()
+        {
+            return await db.Users.ToListAsync();
+        }
+         */
 
         public async Task UpdateAsync(Product product)
         {

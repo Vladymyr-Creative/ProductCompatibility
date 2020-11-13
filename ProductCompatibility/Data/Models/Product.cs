@@ -15,17 +15,17 @@ namespace ProductCompatibility.Data.Models
 
         [Display(Name = "Enter product name")]
         [StringLength(15)]
-        [Required(ErrorMessage = "Lengh atleast 5 char")]
+        [Required(ErrorMessage = "Product name is required!")]
         public string Name { get; set; }
 
         [Display(Name = "Enter product short decription")]
         [StringLength(55)]
-        [Required(ErrorMessage = "Lengh atleast 5 char")]
+        [Required(ErrorMessage = "Decription is required!")]
         public string Description { get; set; }
 
         [Display(Name = "Enter product image url")]
         [StringLength(55)]
-        [Required(ErrorMessage = "Lengh atleast 5 char")]
+        [Required(ErrorMessage = "Image is required!")]
         public string Img { get; set; }
         public virtual Category Category { get; set; }
     }

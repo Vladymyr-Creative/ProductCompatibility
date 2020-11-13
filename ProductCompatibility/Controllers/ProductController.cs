@@ -54,9 +54,7 @@ namespace ProductCompatibility.Controllers
             return View(productObj);
         }
 
-
-        //[Authorize(Roles = "admin")]
-        public IActionResult Add()
+        public IActionResult Create()
         {
             ViewBag.Categories = _repoCat.All;
             return View();
@@ -65,16 +63,15 @@ namespace ProductCompatibility.Controllers
 
         [HttpPost]
         // [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Add(Product product)
+        public async Task<IActionResult> Create([FromBody] Product product)
         {
             if (ModelState.IsValid) {
                 await _repoProd.AddAsync(product);
-                return RedirectToAction("Index", "Home");
+                var prod = await _repoProd.FindByIdAsync(product.Id);///???? testing
+                return Ok(prod);
             }
-            ViewBag.Categories = _repoCat.All;
-            return View(product);
+            return BadRequest(ModelState);
         }
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Edit(int id)
@@ -88,15 +85,13 @@ namespace ProductCompatibility.Controllers
         }
 
 
-        [Route("{id}")]
-        [HttpPost]
+        //[Route("{id}")]
+        [HttpPost("{id}")]
         // [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int id, [FromForm] Product editedProd)
+        public async Task<IActionResult> Edit(int id, [FromBody] Product editedProd)
         {
             if (!ModelState.IsValid) {
-                ViewBag.Categories = _repoCat.All;
-                editedProd.Id = id;
-                return View(editedProd);
+                return BadRequest(ModelState);
             }
 
             var prod = await _repoProd.FindByIdAsync(id);
@@ -106,7 +101,19 @@ namespace ProductCompatibility.Controllers
                 prod.CategoryId = editedProd.CategoryId;
                 prod.Img = editedProd.Img;
                 await _repoProd.UpdateAsync(prod);
-                return RedirectToAction("Index", "Home");
+                var product = await _repoProd.FindByIdAsync(prod.Id);///???? testing
+                return Ok(product);
+            }
+            return NotFound();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var prod = await _repoProd.FindByIdAsync(id);
+            if (prod != null) {
+                await _repoProd.DeleteAsync(prod);
+                return NoContent();
             }
             return NotFound();
         }
