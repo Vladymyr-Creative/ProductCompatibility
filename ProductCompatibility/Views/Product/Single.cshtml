@@ -5,7 +5,11 @@
 }
 
 <div class="text-center card">
-    <img src="#" alt="@Model.Product.Img" />
+
+    <div class="d-flex justify-content-center">
+        <img src="/img/@Model.Product.Img" alt="@Model.Product.Name" class="image-middle-size" />
+    </div>
+
     <h1 class="display-4">@Model.Product.Name</h1>
     <div>
         <a href="/Product/Create/@Model.Product.Id">edit</a>

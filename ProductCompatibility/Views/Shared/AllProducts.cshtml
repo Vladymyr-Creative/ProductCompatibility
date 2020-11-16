@@ -1,8 +1,12 @@
 ﻿@model ProductCompatibility.Data.Models.Product
 
 @{    
-    <div class="card m-1 p-1" style="width: 18rem;">
-        <img class="card-img-top" src="" alt="Card image cap">
+    <div class="card flex-grow-1 m-1 p-1" style="width: 18rem;">
+
+        <div class="d-flex justify-content-center">
+            <img class="image-middle-size card-img-top" src="/img/@Model.Img" alt="@Model.Name" />
+        </div>
+
         <div class="card-body">
             <h5 class="card-title">
                 <a href="/Product/Single/@Model.Id">@Model.Name</a>

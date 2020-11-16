@@ -59,6 +59,13 @@ artifacts/
 # StyleCop
 StyleCopReport.xml
 
+#IMAGES
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.tiff
+
 # Files built by Visual Studio
 *_i.c
 *_p.c

@@ -127,3 +127,10 @@ td.vertical a, td.horizontal a {
 .form-add-product {
     width:500px;
 }
+
+.image-small-size {
+    max-width:50px;
+}
+.image-middle-size {
+    max-width: 150px;
+}

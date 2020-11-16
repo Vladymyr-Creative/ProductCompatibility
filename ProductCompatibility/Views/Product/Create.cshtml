@@ -1,49 +1,53 @@
-﻿@model Product
+﻿@model ProductViewModel
 
 
 <div class="d-flex justify-content-center">
-    <h3>Add new product</h3>
+    <h3>Create/Edit Product</h3>
 </div>
 <div id="errors" class="alert alert-danger" style="display:none;"></div>
 <div class="row align-items-center flex-column">
 
-    <form class="list-group-horizontal form-add-product" name="productForm">
-        <input type="hidden" name="id" value="0" />
+    <form class="list-group-horizontal form-add-product" name="productForm" id="productForm" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="@ViewBag.ProdId" />
         <div class="form-group">
-            <label asp-for="Name">Name</label>
+            <label asp-for="Name"></label>
             <div class="col-md">
                 <input name="name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <div class="col-md">
-                <input name="desc" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+          <div class="form-group">
+                <label asp-for="Desc"></label>
+                <div class="col-md">
+                    <input name="desc" class="form-control" />
+                    <span asp-validation-for="Desc" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="CategoryId">Category</label>
-            <div class="col-md">
-                <select class="form-control" name="cat" required>
-                    @foreach (var category in @ViewBag.Categories) {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Cat"></label>
+                <div class="col-md">
+                    <select class="form-control" name="cat" required>
+                        @foreach (var category in @ViewBag.Categories) {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Cat" class="text-danger"></span>
+                </div>
             </div>
-        </div>
+
         <div class="form-group">
-            <label asp-for="Img"></label>
-            <div class="col-md">
-                <input name="img" class="form-control" />
+            <img src="#" class="image-middle-size" id="ProductImage" alt="img" />
+            <div class="col-md d-flex flex-column align-content-center">
+                <label asp-for="Img" class="btn btn-dark"></label>
+                <input asp-for="Img" accept="image/*" placeholder="" hidden/>
                 <span asp-validation-for="Img" class="text-danger"></span>
             </div>
         </div>
+
+
         <div class="d-flex justify-content-around">
             <a id="reset" class="btn btn-primary">Reset</a>
-            <input type="submit" id="submit" class="btn btn-success" value="Add Product" />
+            <input type="submit" id="submit" class="btn btn-success" value="Submit" />
         </div>
     </form>
 
@@ -60,194 +64,7 @@
     </table>
 </div>
 
-<script>
-    async function GetProducts() {
-
-        const response = await fetch("/api/products", {
-            method: "GET",
-            headers: { "Accept": "application/json" }
-        });
-        if (response.ok === true) {
-            const products = await response.json();
-            let rows = document.querySelector("tbody");
-            products.forEach(product => {
-                rows.append(row(product));
-            });
-        }
-    }
-
-    async function GetProduct(id) {
-        const response = await fetch("/api/products/" + id, {
-            method: "GET",
-            headers: { "Accept": "application/json" }
-        });
-        if (response.ok === true) {
-            const product = await response.json();
-            const form = document.forms["productForm"];
-            form.elements["id"].value = product.id;
-            form.elements["name"].value = product.name;
-            form.elements["cat"].value = product.categoryId;
-            form.elements["desc"].value = product.description;
-            form.elements["img"].value = product.img;
-        }
-    }
-
-    async function CreateProduct(name, desc, cat, img) {
-
-        const response = await fetch("create", {
-            method: "POST",
-            headers: { "Accept": "application/json", "Content-Type": "application/json" },
-            body: JSON.stringify({
-                Name: name,
-                Description: desc,
-                CategoryId: parseInt(cat),
-                Img: img
-            })
-        });
-        if (response.ok === true) {
-            const product = await response.json();
-            reset();
-            document.querySelector("tbody").append(row(product));
-        }
-        else {
-            HandleError(await response.json());
-        }
-    }
-
-    async function HandleError(errorData) {
-        if (errorData) {
-            resetError();
-            for (var prop in errorData) {
-                addError(errorData[prop]);
-            }
-        }
-        document.getElementById("errors").style.display = "block";
-    }
-
-    async function EditProduct(id, name, desc, cat, img) {
-        const response = await fetch("edit/" + id, {
-            method: "POST",
-            headers: { "Accept": "application/json", "Content-Type": "application/json" },
-            body: JSON.stringify({
-                Name: name,
-                Description: desc,
-                CategoryId: parseInt(cat),
-                Img: img
-            })
-        });
-        if (response.ok === true) {
-            const product = await response.json();
-            reset();
-            document.querySelector("tr[data-rowid='" + product.id + "']").replaceWith(row(product));
-        } else {
-            HandleError(await response.json());
-        }
-    }
-
-    async function DeleteProduct(id) {
-        const response = await fetch("delete/" + id, {
-            method: "DELETE",
-            headers: { "Accept": "application/json" }
-        });
-        
-        if (response.ok === true) {            
-            document.querySelector("tr[data-rowid='" + id + "']").remove();
-        }
-    }
-
-    function resetError() {        
-        document.getElementById("errors").innerHTML = '';
-        document.getElementById("errors").style.display = "none";
-    }
-
-    function reset() {
-        const form = document.forms["productForm"];
-        form.reset();
-        resetError();
-        form.elements["id"].value = 0;
-    }
-
-    function addError(errors) {        
-        errors.forEach(error => {
-            const p = document.createElement("p");
-            p.append(error);
-            document.getElementById("errors").append(p);
-        });
-    }
-
-    var timer;
-    function scrollToTop() {
-        var top = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
-        if (top > 0) {
-            window.scrollBy(0, -50);
-            timer = setTimeout('scrollToTop()', 20);
-        } else clearTimeout(timer);
-        return false;
-    }
-
-    function row(product) {
-
-        const tr = document.createElement("tr");
-        tr.setAttribute("data-rowid", product.id);
-
-        const idTd = document.createElement("td");
-        idTd.append(product.name);
-        tr.append(idTd);
-
-        const nameTd = document.createElement("td");
-        nameTd.append(product.category.name);
-        tr.append(nameTd);
-
-        const ageTd = document.createElement("td");
-        tr.append(ageTd);
-
-        const linksTd = document.createElement("td");
-
-        const editLink = document.createElement("a");
-        editLink.setAttribute("data-id", product.id);
-        editLink.setAttribute("style", "cursor:pointer;padding:15px;");
-        editLink.append("Edit");
-        editLink.addEventListener("click", e => {
-
-            e.preventDefault();
-            scrollToTop();
-            GetProduct(product.id);
-        });
-        linksTd.append(editLink);
-
-        const removeLink = document.createElement("a");
-        removeLink.setAttribute("data-id", product.id);
-        removeLink.setAttribute("class", "btn btn-secondary");
-        removeLink.append("Delete");
-        removeLink.addEventListener("click", e => {
-            e.preventDefault();
-            DeleteProduct(product.id);
-        });
-
-        linksTd.append(removeLink);
-        tr.appendChild(linksTd);
-
-        return tr;
-    }
-
-    document.getElementById("reset").addEventListener("click", e => {
-        e.preventDefault();
-        reset();
-    });
-
-    document.forms["productForm"].addEventListener("submit", e => {
-        e.preventDefault();
-        const form = document.forms["productForm"];
-        const id = form.elements["id"].value;
-        const name = form.elements["name"].value;
-        const desc = form.elements["desc"].value;
-        const cat = form.elements["cat"].value;
-        const img = form.elements["img"].value;
-        if (id == 0)
-            CreateProduct(name, desc, cat, img);
-        else
-            EditProduct(id, name, desc, cat, img);
-    });
-
-    GetProducts();
-</script>
+@section Create
+{
+    <script src="~/js/create.js" asp-append-version="true"></script>
+}
