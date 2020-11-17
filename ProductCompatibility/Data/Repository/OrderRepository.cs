@@ -1,4 +1,5 @@
-﻿using ProductCompatibility.Data.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductCompatibility.Data.Interfaces;
 using ProductCompatibility.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,10 @@ namespace ProductCompatibility.Data.Repository
             _shopCart = shopCart;
         }
 
-        public IEnumerable<Order> All => throw new NotImplementedException();
+        public async Task<IEnumerable<Order>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task AddAsync(Order order)
         {

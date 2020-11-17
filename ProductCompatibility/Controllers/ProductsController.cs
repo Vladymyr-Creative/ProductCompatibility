@@ -21,9 +21,9 @@ namespace ProductCompatibility.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> Get()
+        public async Task<IEnumerable<Product>> Get()
         {
-            var products = _repoProd.All.ToList();            
+            var products = await _repoProd.GetAllAsync();            
             return products;
         }
 

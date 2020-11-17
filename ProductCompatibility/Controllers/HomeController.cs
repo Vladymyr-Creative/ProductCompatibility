@@ -24,11 +24,11 @@ namespace ProductCompatibility.Controllers
         }
 
         //[Authorize(Roles = "admin, user")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {         
             var homeProducts = new HomeViewModel {
-                AllProducts = _repoProd.All,
-                AllProductsCompatibilities = _repoProdComp.All
+                AllProducts = await _repoProd.GetAllAsync(),
+                AllProductsCompatibilities = await _repoProdComp.GetAllAsync()
             };
             return View(homeProducts);
         }

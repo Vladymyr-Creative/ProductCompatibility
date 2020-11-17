@@ -30,15 +30,17 @@ namespace ProductCompatibility.Controllers
         }
 
         [Route("{category?}")]
-        public ViewResult List(string category)
+        public async Task<ViewResult> List(string category)
         {
             IEnumerable<Product> products = null;
             string currCategory = "";
             if (string.IsNullOrEmpty(category)) {
-                products = _repoProd.All.OrderBy(i => i.Id);
+                products = await _repoProd.GetAllAsync();
+                products = products.OrderBy(i => i.Id);
             }
             else {
-                products = _repoProd.All.Where(i => i.Category.Name.ToLower().Equals(category.ToLower()));
+                products = await _repoProd.GetAllAsync();
+                products = products.Where(i => i.Category.Name.ToLower().Equals(category.ToLower()));
                 currCategory = category;
             }
 
@@ -60,9 +62,9 @@ namespace ProductCompatibility.Controllers
         }
 
         [Route("{id?}")]
-        public IActionResult Create(int id)
+        public async Task<IActionResult> Create(int id)
         {
-            ViewBag.Categories = _repoCat.All;
+            ViewBag.Categories = await _repoCat.GetAllAsync();
             ViewBag.ProdId = id;
             return View();
         }

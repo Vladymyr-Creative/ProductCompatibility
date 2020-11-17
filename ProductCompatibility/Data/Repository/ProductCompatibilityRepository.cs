@@ -17,8 +17,11 @@ namespace ProductCompatibility.Data.Repository
             _appDBContent = appDBContent;
         }
 
-        public IEnumerable<ProductsCompatibility> All => _appDBContent.ProductsCompatibility.Include(p => p.Compatibility).Include(p => p.Product1).Include(p => p.Product2);
-        
+        public async Task<IEnumerable<ProductsCompatibility>> GetAllAsync()
+        {
+            return await _appDBContent.ProductsCompatibility.Include(p => p.Compatibility).Include(p => p.Product1).Include(p => p.Product2).ToListAsync();
+        }
+
         public async Task<ProductsCompatibility> GetByIdsAsync(int Id1, int Id2)
         {            
             return await _appDBContent.ProductsCompatibility.Where(p => p.Product1Id == Id1).Where(p => p.Product2Id == Id2).FirstOrDefaultAsync();
@@ -34,6 +37,16 @@ namespace ProductCompatibility.Data.Repository
         {
             _appDBContent.ProductsCompatibility.Update(productsCompatibility);
             await _appDBContent.SaveChangesAsync();
+        }
+
+        public Task DeleteAsync(ProductsCompatibility entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ProductsCompatibility> FindByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

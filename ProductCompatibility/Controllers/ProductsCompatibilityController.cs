@@ -26,16 +26,16 @@ namespace ProductCompatibility.Controllers
             _repoComp = repoComp;
         }
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            ViewBag.viewModel = GetProdCompViewModel();
+            ViewBag.viewModel = await GetProdCompViewModel();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(ProductsCompatibility prodComp)
         {
-            ViewBag.viewModel = GetProdCompViewModel();
+            ViewBag.viewModel = await GetProdCompViewModel();
 
             if (prodComp.Product1Id == prodComp.Product2Id) {
                 return View(prodComp);
@@ -61,18 +61,18 @@ namespace ProductCompatibility.Controllers
             return View(prodComp);
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit()
         {
-            ViewBag.viewModel = GetProdCompViewModel();
+            ViewBag.viewModel = await GetProdCompViewModel();
             return View();
         }
 
-        private ProductsCompatibilityViewModel GetProdCompViewModel()
+        private async Task<ProductsCompatibilityViewModel> GetProdCompViewModel()
         {
             return new ProductsCompatibilityViewModel {
-                AllProdCompatibilities = _repoProdComp.All,
-                AllProducts = _repoProd.All,
-                Compatibilities = _repoComp.All,
+                AllProdCompatibilities = await _repoProdComp.GetAllAsync(),
+                AllProducts = await _repoProd.GetAllAsync(),
+                Compatibilities = await _repoComp.GetAllAsync(),
             };
         }
     }

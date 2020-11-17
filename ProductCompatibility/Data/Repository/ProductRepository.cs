@@ -17,7 +17,10 @@ namespace ProductCompatibility.Data.Repository
             _appDBContent = appDBContent;
         }
 
-        public IEnumerable<Product> All => _appDBContent.Product.Include(c=>c.Category);
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            return await _appDBContent.Product.Include(c => c.Category).ToListAsync();
+        }
 
         public async Task<Product> FindByIdAsync(int id) => await _appDBContent.Product.Include(p=>p.Category).FirstOrDefaultAsync(p => p.Id == id);
 
@@ -26,13 +29,6 @@ namespace ProductCompatibility.Data.Repository
             await _appDBContent.Product.AddAsync(product);
             await _appDBContent.SaveChangesAsync();
         }
-        /*
-           [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
-        {
-            return await db.Users.ToListAsync();
-        }
-         */
 
         public async Task UpdateAsync(Product product)
         {

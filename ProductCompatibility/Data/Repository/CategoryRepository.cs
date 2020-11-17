@@ -1,4 +1,5 @@
-﻿using ProductCompatibility.Data.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductCompatibility.Data.Interfaces;
 using ProductCompatibility.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,10 @@ namespace ProductCompatibility.Data.Repository
             _appDBContent = appDBContent;
         }        
 
-        public IEnumerable<Category> All => _appDBContent.Category;
+        public async Task<IEnumerable<Category>> GetAllAsync()
+        {
+            return await _appDBContent.Category.ToListAsync();
+        }
 
         public Task AddAsync(Category entity)
         {

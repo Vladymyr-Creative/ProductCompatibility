@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProductCompatibility.Data.Interfaces
 {
-    public interface IAllProductsCompatibilities
+    public interface IAllProductsCompatibilities:IRepository<ProductsCompatibility>
     {
-        IEnumerable<ProductsCompatibility> All { get;}
         Task<ProductsCompatibility> GetByIdsAsync(int Id1, int Id2);
-        Task AddAsync(ProductsCompatibility productsCompatibility);
-        Task UpdateAsync(ProductsCompatibility productsCompatibility);
     }
 }
