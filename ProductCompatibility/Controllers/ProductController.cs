@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,12 +22,19 @@ namespace ProductCompatibility.Controllers
         private readonly IRepository<Product> _repoProd;
         private readonly IRepository<Category> _repoCat;
         private readonly IWebHostEnvironment _env;
+        private readonly IMapper _mapper;
 
-        public ProductController(IRepository<Product> repoProd, IRepository<Category> repoCat, IWebHostEnvironment env)
+        public ProductController(
+            IRepository<Product> repoProd,
+            IRepository<Category> repoCat,
+            IWebHostEnvironment env,
+             IMapper mapper
+            )
         {
             _repoProd = repoProd;
             _repoCat = repoCat;
             _env = env;
+            _mapper = mapper;
         }
 
         [Route("{category?}")]
@@ -78,13 +86,8 @@ namespace ProductCompatibility.Controllers
             
             if (ModelState.IsValid) {
                 string uniqueFileName = await UploadedFile(model.Img);
-
-                Product product = new Product{
-                    Name = model.Name,
-                    Description = model.Desc,
-                    CategoryId = model.Cat,
-                    Img = uniqueFileName,
-                };
+                Product product = _mapper.Map<ProductViewModel, Product>(model);
+                product.Img = uniqueFileName;
 
                 await _repoProd.AddAsync(product);
                 var prod = await _repoProd.FindByIdAsync(product.Id);
@@ -107,8 +110,10 @@ namespace ProductCompatibility.Controllers
                 prod.Name = editedProd.Name;
                 prod.Description = editedProd.Desc;
                 prod.CategoryId = editedProd.Cat;
+
                 string uniqueFileName = await UploadedFile(editedProd.Img);
                 if (uniqueFileName != null) prod.Img = uniqueFileName;
+
                 await _repoProd.UpdateAsync(prod);
                 var product = await _repoProd.FindByIdAsync(prod.Id);
                 return Ok(product);

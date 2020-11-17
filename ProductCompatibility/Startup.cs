@@ -15,6 +15,7 @@ using ProductCompatibility.Data.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ProductCompatibility.Data.Models;
+using AutoMapper;
 
 namespace ProductCompatibility
 {
@@ -51,6 +52,9 @@ namespace ProductCompatibility
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
